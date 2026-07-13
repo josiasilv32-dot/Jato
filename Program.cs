@@ -7,7 +7,7 @@ namespace Jato
 {
     public class Program
     {
-        private static readonly string TOKEN_BOT = "8889136036:AAF5m0LwxmXj6lwgi2WT25WI0f3Ody4zcUA";
+        private static readonly string TOKEN_BOT = "8889136036:AAETf7Ow95YDkfUkGyKX1tgO8n4HW2hjLTc";
         private static readonly long CHAT_ID = 7892530498;
         private static ITelegramBotClient? _bot;
         private static Timer? _timer;
