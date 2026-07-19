@@ -1,20 +1,16 @@
 name: JATO 24/7
-
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 8 * * * *' # 8h UTC = 9h Lisbon, 1x por dia
   workflow_dispatch:
-
 jobs:
   run-jato:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-          
-      - name: Run JATO
-        run: timeout 25m dotnet run --project jato.csproj || true
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 8.0.x }
+      - run: dotnet run --project jato.csproj
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
