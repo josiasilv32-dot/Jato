@@ -1,16 +1,29 @@
-name: JATO 24/7
+name: Jato - Caçador de Voos
+
 on:
   schedule:
-    - cron: '0 8 * * * *' # 8h UTC = 9h Lisbon, 1x por dia
+    - cron: '0 8,12,16,19,22 * * *' # 5x por dia como querias
   workflow_dispatch:
+
 jobs:
   run-jato:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with: { dotnet-version: 8.0.x }
-      - run: dotnet run --project jato.csproj
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Restore
+        run: dotnet restore
+      
+      - name: Build
+        run: dotnet build --no-restore
+      
+      - name: Run Jato
         env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: dotnet run --project jato.csproj
